@@ -33,8 +33,10 @@ const getPostData = (req) => {
 
 const serverHandle = (req, res) => {
 
-    // 设置返回格式 JSON
-    res.setHeader('Content-type', 'application/json');
+    res.setHeader('Content-type', 'application/json'); // 设置返回格式 JSON
+    res.setHeader("Access-Control-Allow-Origin", "*");  // 设置允许跨域    
+    res.setHeader("Access-control-Allow-Headers", "xCors");    // 允许请求头中携带 xCors
+    res.setHeader("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT,OPTIONS,HEAD,FETCH"); // 设置允许声明的方法访问
 
     // 获取 path
     const url = req.url;
