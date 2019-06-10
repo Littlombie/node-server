@@ -9,7 +9,7 @@ const getPostData = (req) => {
             resolve({})
             return;
         }
-        if (req.headers['Content-type'] !== 'application/json') { //不是json格式
+        if (req.headers['content-type'] !== 'application/json') { //不是json格式
             resolve({})
             return;
         }
