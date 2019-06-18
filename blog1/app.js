@@ -49,13 +49,28 @@ const serverHandle = (req, res) => {
         req.body = postData;
 
         // 处理blog路由
-        const blogData = hanleBlogRouter(req, res);
-        if (blogData) {
-            res.end(
-                JSON.stringify(blogData)
-            );
+
+        // const blogData = hanleBlogRouter(req, res);
+        // if (blogData) {
+        //     res.end(
+        //         JSON.stringify(blogData)
+        //     );
+        //     return;
+        // }
+
+        const blogResult = hanleBlogRouter(req, res);
+        if (blogResult) { // 如果又返回值 就then 输出
+            blogResult.then(blogData => {
+                    res.end(
+                        JSON.stringify(blogData)
+                    );
+            })
             return;
         }
+     
+
+
+
         // 处理user路由
         const userData = handleUserRouter(req, res);
         if (userData) {
