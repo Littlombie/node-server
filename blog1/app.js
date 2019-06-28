@@ -45,6 +45,20 @@ const serverHandle = (req, res) => {
     // 解析query
     req.query = querystring.parse(url.split('?')[1]);
 
+    //解析cookie
+    req.cookie = {};
+    const cookieStr = req.headers.cookie || ''; // k1=v1;k2=v2;
+    cookieStr.split(';').forEach(item => {
+      if (!item) {
+          return;
+      } 
+      const arr = item.split('=');
+      const key = arr[0].trim(); //.replace(' ',''); //不知道为什么返回的cookie中键前边有空格 使用.trim() 去掉空格
+      const val = arr[1].trim();
+      req.cookie[key] = val
+    });
+    // console.log('req.cookie is', req.cookie);
+
     getPostData(req).then(postData => {
         req.body = postData;
 
@@ -72,11 +86,13 @@ const serverHandle = (req, res) => {
 
 
         // 处理user路由
-        const userData = handleUserRouter(req, res);
-        if (userData) {
-            res.end(
-                JSON.stringify(userData)
-            );
+        const userResult = handleUserRouter(req, res);
+        if (userResult) {
+            userResult.then(userData => {
+                res.end(
+                    JSON.stringify(userData)
+                );
+            })
             return;
         }
         
