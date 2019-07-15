@@ -1,3 +1,5 @@
+// 这文件专门提供http服务
+
 const http = require('http');
 
 const PORT = 8000;
