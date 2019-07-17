@@ -24,5 +24,6 @@ con.connect();
  }
 
  module.exports = {
-    exec
+    exec,
+    escape: mysql.escape
  }

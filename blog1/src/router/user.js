@@ -1,5 +1,6 @@
 const {login} = require('../controller/user');
 const {SuccessModel, ErrorModel} = require('../model/resModel');
+const {set} = require('../db/redis');
 
 
 // 获取cookie过期时间
@@ -23,6 +24,7 @@ const handleUserRouter = (req, res) => {
 
         // console.log('result---------------------------------',data);
             if (data.username) {
+                console.log('2222222',req.session);
                 // 设置session
                 req.session.username = data.username;
                 req.session.realname = data.realname;
@@ -30,6 +32,10 @@ const handleUserRouter = (req, res) => {
 
                 // 操作cookie
                 // res.setHeader('Set-Cookie', `username=${data.username}; path=/; httpOnly; expires=${getCookieExpires()}`);  //登录后所有的页面都生效  ,httpOnly 表示username 只能是 后台修改 前台修改不会生效
+                
+                // 同步到redis
+                set(req.sessionId, req.session);
+                
                 return new SuccessModel();
             }
             return new ErrorModel('登录失败');

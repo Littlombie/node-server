@@ -91,6 +91,7 @@ const serverHandle = (req, res) => {
         needSetCookie = true;
         userId = `${Date.now()}_${Math.random()}`;
         SESSION_DATA[userId] = {};
+        
     }
     req.session = SESSION_DATA[userId];
 
